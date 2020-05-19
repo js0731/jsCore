@@ -1,4 +1,4 @@
-#JS的作用域(Lexical scope)
+###JS的作用域(Lexical scope)
 
 作用域就是原始碼起作用的範圍，定義了當前的程式該去哪裡找到這些變數。
 
