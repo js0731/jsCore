@@ -1,6 +1,6 @@
 ```
-var value = 1
-function fn1() {
+var value = 1       6886
+function fn1() {    //645645
     console.log(value);
 }
 function fn2() {
