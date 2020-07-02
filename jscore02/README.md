@@ -79,5 +79,4 @@ console.log(e);
 ![](https://miro.medium.com/max/1769/1*G6dEyUCy9hwo9EEGzCRaVQ.png)
 
 很清楚的可以看到e是一個物件，_proto_便是包裹物件的原型，裡面包含了這個物件可以使用的方法。
-
 Note: 需要原始型別變數時，盡量不要使用建構式來宣告，因為這樣便會宣告出一個物件型別，而非原始型別，操作上還是會跟原始型別不太一樣。
