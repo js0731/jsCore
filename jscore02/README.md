@@ -79,4 +79,80 @@ console.log(e);
 ![](https://miro.medium.com/max/1769/1*G6dEyUCy9hwo9EEGzCRaVQ.png)
 
 很清楚的可以看到e是一個物件，_proto_便是包裹物件的原型，裡面包含了這個物件可以使用的方法。
+
 Note: 需要原始型別變數時，盡量不要使用建構式來宣告，因為這樣便會宣告出一個物件型別，而非原始型別，操作上還是會跟原始型別不太一樣。
+# 運算子的優先性及相依性
+### 優先性 Precedence：
+  運算子彼此之間的執行順序。例如：乘除優先於加減，因此先執行乘除後執行加減，以下面程式碼為例：
+`var a = 2 * 2 + 2 * 3;`
+會先執行 2 * 2 和 2 * 3，接著再把兩者個結果相加，是因為乘號的的優先性大於加號的優先性。
+![](https://miro.medium.com/max/2324/1*x4WAxkFqvtw30vMVATf0DQ.png)
+而`=`是最後才執行賦值的運算子，因為他的優先性最低。
+![](https://miro.medium.com/max/2329/1*a4e_TFOBma1OqKWFNPl5hw.png)
+### 相依性 Associativity：
+
+指的是運算方向。例如：加號的相依性是由左至右，但等號是由右至左。當兩個運算子的優先性相同時(例如加號和減號)，就會依據相依性的方向來執行。
+![](https://miro.medium.com/max/2324/1*x4WAxkFqvtw30vMVATf0DQ.png)
+
+
+下面這段程式碼宣告一個物件變數b, 接著幫他定義一個屬性a, 賦予a的值為2，並且規定他的值不可被覆寫。接著我們試著將b.a賦予一個新的值3,，console.log(b)的結果為2，因為剛才已經將b.a限制為不可被覆寫了。
+
+接下來定義另一個變數a，在 a = b.a = 1 之後，a的值會是什麼？
+```
+var b = {};  
+Object.defineProperty(b, ‘a’, {  
+ value: 2,  
+ writable: false  
+});b.a = 3;  
+console.log(b.a); // 2var a = 3;  
+a = b.a = 1;  
+console.log(a);
+```
+答案會是1，為什麼呢？前面不是說了，b.a無法被覆寫，結果為什麼不會是2呢？
+
+這是因為在  `a=b.a=1`這一行程式碼中，a會被賦予的值，是`b.a=1`這個**表達式所回傳的結果**，與`b.a`現在的值是沒有關係的。我們可以在console中把`b.a`和`b.a=1`都印出來看看。
+```
+var b = {};  
+Object.defineProperty(b, ‘a’, {  
+ value: 2,  
+ writable: false  
+});b.a = 3;  
+console.log(b.a); // 2var a = 3;  
+a = b.a = 1;  
+console.log(a);  
+**console.log(b.a);  
+console.log(b.a = 1);**
+```
+![](https://miro.medium.com/max/1769/1*UMB2RRFjUDvUK0CS5jFG9w.png)
+
+這邊需要建立一個觀念，**所有的表達式都會回傳值，**但如果沒有去接收它時，他就會立即被釋放，不會儲存，就只是一個過程。
+
+而  `=`  也是表達式，他的功能是將右側的值賦予到左側，但同時也**必須回傳值**（只因為它是表達式），會傳的值都是用右側的值做表示。
+# 邏輯運算子與短路邏輯的運用
+### 邏輯運算子
+  *  **&&** 的特性是要全部為 true 才會是 true，否則都返回 false
+  * **||** 的特性是只要其中一個是 true 就會返回 true，除非全部都是 false，意即只要其中一個條件滿足就成立
+  * **!** 特性就是做反向，如果是 true 就返回 false，如果是 false 就返回 true
+
+### 短路求值
+上面曾提到邏輯運算子們常在 if 判斷式中和布林 (true or false) 一起使用，那是因為**在 if 判斷式的括號裡會強制轉成布林值**。
+但其實在 javascript 裡**可以用邏輯運算子操作任何值，不會強制要返回 true or false**。
+如果有[比較運算子](https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Obsolete_Pages/Obsolete_Pages/Obsolete_Pages/%E9%81%8B%E7%AE%97%E5%AD%90/%E6%AF%94%E8%BC%83%E9%81%8B%E7%AE%97%E5%AD%90)的話，再透過[比較運算子](https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Obsolete_Pages/Obsolete_Pages/Obsolete_Pages/%E9%81%8B%E7%AE%97%E5%AD%90/%E6%AF%94%E8%BC%83%E9%81%8B%E7%AE%97%E5%AD%90)去比較出結果就**可以發展出更簡便的寫法**，就是下面要提到的短路邏輯。
+圖
+**在 javascript 裡面只要是 0、""、null、false、undefined、NaN 都會被判定為 false**。
+```
+console.log(0 && 1)  // 0
+console.log(1 && 0)  // 0
+console.log(1 || 0)  // 1
+console.log(0 || 1)  // 1
+console.log(0 || 1)  // 1
+console.log(undefined || 1)  // 1
+console.log(1 && undefined)  // undefined
+```
+**短路邏輯的運用**
+  1. 用 || 來設定變數預設值，如果沒有 name 就預設為小明。 <br/>`var student = name || "小明";`
+  2. 用 && 來檢查物件與屬性值
+  3. 假設想要返回一個變數的length，但又不知道變數的類型可以使用if/else 來檢查foo 是否是一個可接受的類型。<br/>`return (foo | | [ ] ).length`
+  4. 用 && 來簡化程式碼，如果 a == 1 為 false，那下面 alert 就不會做了。
+  ```var a = 1; a == 1 && alert("a=1")```
+
