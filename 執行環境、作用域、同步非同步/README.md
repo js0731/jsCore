@@ -138,7 +138,7 @@ console.log(b.a = 1);**
 上面曾提到邏輯運算子們常在 if 判斷式中和布林 (true or false) 一起使用，那是因為**在 if 判斷式的括號裡會強制轉成布林值**。
 但其實在 javascript 裡**可以用邏輯運算子操作任何值，不會強制要返回 true or false**。
 如果有[比較運算子](https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Obsolete_Pages/Obsolete_Pages/Obsolete_Pages/%E9%81%8B%E7%AE%97%E5%AD%90/%E6%AF%94%E8%BC%83%E9%81%8B%E7%AE%97%E5%AD%90)的話，再透過[比較運算子](https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Obsolete_Pages/Obsolete_Pages/Obsolete_Pages/%E9%81%8B%E7%AE%97%E5%AD%90/%E6%AF%94%E8%BC%83%E9%81%8B%E7%AE%97%E5%AD%90)去比較出結果就**可以發展出更簡便的寫法**，就是下面要提到的短路邏輯。
-![](logical_operator.png)
+![](logocal_operators.png)
 **在 javascript 裡面只要是 0、""、null、false、undefined、NaN 都會被判定為 false**。
 ```
 console.log(0 && 1)  // 0
