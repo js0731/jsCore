@@ -1,3 +1,4 @@
+
 # 屬性特徵
 屬性就是 key/value 的組合，但除此之外，還有一些屬性的**設定**藏在裡面，這些屬性的**設定**稱為**屬性的特徵**，而設定這些屬性特徵的函式我們就把它稱為 **屬性描述器**，就算沒有屬性描述器，依然可以撰寫 JavaScript，但使用屬性描述器可以讓**程式更為強健**。
 
@@ -6,8 +7,8 @@
 -   writable => 可否進行屬性質的(預設為`true`)。
 -   configurable => 可否可以用 delete 刪除屬性 (預設為`true`)。
 -   enumerable => 可否利用 **for...in 迴圈**將物件屬性列舉出來 (預設為`true`)。
--   get
--   set
+-   get  取值器
+-   set  設值器
 
 而這些特徵都是透過**屬性描述器**去設定的  `Object.defineProperty` (一次設定一個屬性) 與  `Object.definedProperties`(一次設定多個屬性) 
 #### Object.defineProperty
@@ -58,7 +59,7 @@ obj.d = 5
 obj.d.a = 6
 console.log(obj)
 ```
-這個禁止寫入只限定於`d`這個屬性，由於物件本身是傳參考的特性，所以一樣可以對`d`裡面的值做額外的設定，而`defineProperty`只能對當下的屬性做限制，如果是新增一個物件則沒辦法對子屬性作限制，也就是**淺層保護**。
+這個禁止寫入只限定於`d`這個屬性，由於物件本身是**傳參考的特性**，所以一樣**可以對`d`裡面的值做額外的設定**，而`defineProperty`只能對**當下的屬性做限制**，如果是新增一個物件則**沒辦法對子屬性作限制**，也就是**淺層保護**。
 #### Object.definedProperties
 一次設定多個屬性
 ```
@@ -187,7 +188,7 @@ wallet.save ; // 250
 console.log(wallet.total);  // 250
 ```
 接著把wallet 這個物件印出來`console.log(wallet)`會發現可以看到 total下還有一個 `(...)` 如果我們點下去之後，才會從點下去的當下去資料中取這個值 ，也就是說，按下去的當下，js的程式碼都全部跑完了，才去取得處理完的資料狀態，也就是250。
-圖:修改以上文字
+![](img/1.png)
 ### 使用 Object.defineProperty( ) 定義 Getter 以及 Setter
 除了在物件上定義還可透過Object.defineProperty()來使用Getters 和 Setters
 範例 :
@@ -211,7 +212,7 @@ console.log(wallet.total);  // 250
 ```
 如同之前的寫法所示，功能一樣可以照常運作，但把它印出來看`console.log(wallet)`可以發現 `save: (...)` 的屬性顏色跟之前的不一樣，變成淡紫色。
 使用`Object.getOwnPropertyDescriptor(wallet, 'save')`來查看屬性特徵
-可以發現`configurable` 以及 `enumerable`的狀態是 `false`。形成這樣的原因是因為根據預設，被加到物件且使用Object.defineProperty( )的值都是不可變物件(Immutable)。
+可以發現`configurable` 以及 `enumerable`的狀態是 `false`。形成這樣的原因是因為根據預設，被加到物件且使用Object.defineProperty( )的值都是**不可變物件(Immutable)**。
 如果要修改成 true 的話也很簡單，只需要 Object.defineProperty 中進行調整就可以了。
 ```
 Object.defineProperty(wallet, 'save', { 
@@ -226,7 +227,7 @@ Object.defineProperty(wallet, 'save', {
 });
 console.log('GetterandSetter',Object.getOwnPropertyDescriptor(wallet, 'save'));
 ```
-加一個範例
+使用 Getter 以及 Setter來新增方法分別取的陣列索引前後的值。
 ```
 var a = ['1', '2', '3'];
 Object.defineProperties(Array.prototype, {
