@@ -1,10 +1,11 @@
+
 #  編譯式語言與直譯式語言
 ### 直譯式語言
-不同於編譯語言，直譯語言在執行時會**一行一行的動態將程式碼直譯(interpret)為機器碼**，並執行。直譯語言多半以動態語言(dynamic language)為主，具有**靈活的型別處理**，**動態生成與程式彈性**，但**速度會比編譯式語言要慢一些**。
+直譯語言在執行時會**一行一行的動態將程式碼直譯(interpret)為機器碼**，並執行。直譯語言多半以**動態語言(dynamic language)**為主，具有**靈活的型別處理**，**動態生成與程式彈性**，但**速度會比編譯式語言要慢一些**。
 直譯語言有 - Javascript 、Python、Shellscript等等
 
 ### 編譯式語言
-編譯語言在程式執行前會先透過編譯器(compiler)將**程式碼編譯**(Compile)成計算機所看的懂的機器碼，最後再執行。編譯式語言多半會是**靜態語言(static language)**，它們會**事先定義的型別**、**型別檢查**與擁有***高效能的執行速度**等特性。
+編譯語言在程式執行前會先透過編譯器(compiler)將**程式碼編譯**(Compile)成計算機所看的懂的機器碼，最後再執行。編譯式語言多半會是**靜態語言(static language)**，它們會**事先定義的型別**、**型別檢查**與擁有**高效能的執行速度**等特性。
 編譯式語言有 - C、C++、bjective-C、Visual Basic等等。
 #  作用域(Lexical scope)
 作用域又分**靜態作用域**跟**動態作用域**，而靜態作用域及動態作用域的差別牽涉直譯語言的解譯及運行流程，
@@ -16,7 +17,7 @@
 
 範例1:
 
-變數 `Ming`的**作用域**僅在 `callName` 函式內，所以在外層 `console.log(Ming)` 會得到Mins is not defined的錯誤。外層讀不到在 `callName` 函式內宣告的變數。
+變數`Ming`的**作用域**僅在`callName`函式內，所以在外層`console.log(Ming)`會得到`Mins is not defined`的錯誤。外層讀不到在`callName`函式內宣告的變數。
 ```
 function callName(){
   var Ming = '明' ;  
@@ -49,26 +50,25 @@ fun2()
 
 # 執行環境 (Execution context)
 
-每當**函式被執行時**，就會產生**執行環境 Execution Context**。每執行一次便會產生一個新的執行環境。除了函式之外，全域也有**全域執行環境**，在網頁被瀏覽器開啟或是後端Node.js被啟動時，就被建立了。全域執行環境被建立時會同時宣告window或是global變數 (在瀏覽器是window, Node.js是global，而在全域執行環境中的this就等同於這兩個變數)。
+每當**函式被執行時**，就會產生**執行環境 Execution Context**，每執行一次便會產生一個新的執行環境。
 
-----------
+除了函式之外，全域也有**全域執行環境**，在網頁被瀏覽器開啟時，第一個建立的執行環境就是：**全域執行環境 (Global execution context)**，全域執行環境被建立時會宣告window變數，而在全域執行環境中的this就等同於這個變數。
 
-當你的程式碼已經準備好開始運行，第一個建立的執行環境就是：
 
-#### 全域執行環境 (Global execution context)。
+**執行環境** 在建立時，會經歷**兩個階段**，分別是 ：
 
-**執行環境**  在建立時，會經歷**兩個階段**，分別是 ：
-
-1.**Creation Phase 創造階段 : 設定變數與function到記憶體中、提升(hoisting) 。**
+1.**創造階段(Creation Phase) : 設定變數與function到記憶體中、提升(hoisting) 。**
 範例:
 
 ```
-     fun();   
-     console.log(a); //undefined
-     var a = 'hello';   
-     function fun(){   
-       console.log('called fun');   
-     } 
+fun();   
+
+console.log(a); //undefined
+var a = 'hello';   
+
+function fun(){   
+  console.log('called fun');   
+} 
 ```
      圖:[https://pvt5r486.github.io/f2e/20190110/1483372396/](https://pvt5r486.github.io/f2e/20190110/1483372396/)
 `fun` 函式正確地被執行了，但是變數 `a` 的值變成了 `undefined`，即使函式與變數是之後才宣告的，但仍然正確執行，這是在創造階段就被**設定變數以及函式在記憶體裡**，這個步驟叫做 **「提升 (hoisting)」** 。
@@ -118,6 +118,14 @@ Hi => 1sec
 順序為:
 Hi => 1sec
 `setTimeout`設定的等待時間，並不能夠確保它真的會在設定的時間到就馬上執行，也就是假設時間為 10sec，這樣只能夠確保它會在 **大於等於** 10sec 後才會執行」。
+
+
+
+
+
+
+
+
 
 
 
