@@ -1,4 +1,3 @@
-
 # 常見的this
 ### this基本觀念
   * 每個執行環境下都有屬於自己的this。
@@ -73,45 +72,74 @@
    
 ### call，apply，bind方法。
   * `apply` 的 `call` 很像都是**立即執行**，只是傳入參數不同。
-  * `call`、`apllly`第一個參數是給予要讓前面的 function 執* this要指向哪個物件，後面就是依據傳入該function要傳入的參數，但apply傳入的參數必須包在一個**陣列**裡面，當作第二個參數傳入。
-  * 而bind的方法跟call, apply的主要差異在於，他**不會立刻執行**前面的 function，因此要使用bind的方法的時候呢，必須先做一些處理。
+  * `call`、`apllly`第一個參數是給予要讓前面`function`的`this`要指向哪個物件，後面就是依據傳入該`function`要傳入的參數，但`apply`傳入的參數必須包在一個**陣列**裡面，當作第二個參數傳入。
+  * 而`bind`的方法跟`call`, `apply`的主要差異在於，他**不會立刻執行**前面的`function`，因此要使用`bind`的方法的時候呢，必須先做一些處理。
+
+    call範例 :
      ```
-     //call範例
       var myName =  '全域'; 
       
       var family = { myName: '小明家' }; 
       
       function fn (para1, para2) { 
-      　　console.log(this, para1, para2); 
+      　　console.log(this, para1, para2); // {myName: "小明家"} 1 2
       }
       fn.call(family, 1, 2); 
       ```
+      apply範例
      ```
-     //apply範例
      var myName =  '全域'; 
       
       var family = { myName: '小明家' }; 
       
       function fn (para1, para2) { 
-      　　console.log(this, para1, para2); 
+      　　console.log(this, para1, para2); // {myName: "小明家"} 3 4
       }
-      fn.apply(family, [3, 4]); 
+      fn.apply(family, [3, 4]);    
       ```
+    bind範例
     ```
-      //bind範例
       var myName =  '全域'; 
       
       var family = { myName: '小明家' }; 
       
       function fn (para1, para2) { 
-      　　console.log(this, para1, para2); 
+      　　console.log(this, para1, para2); // {myName: "小明家"} 5 6 
       }
       var fn2 = fn.bind(family); 
       fn2(5,6); //這裡看起來像SimpleCall但實際調用this的地方已經被決定了
     ```
-* new
 * DOM事件處理器
   * DOM事件監聽會直接指向事件的觸發元素 
      `<button onclick="console.dir(this)">按鈕 </button>`
-     圖：
+     ![](img/1.png)
 * 箭頭函式(ES6)
+  * 傳統函式：有一個大原則：**看呼叫時的物件是誰**
+  * 箭頭函式： Arrow Functions 不會有自己的  `this`  引用物件，呼叫  `this`  時，會**向外查找**`this`。
+  * `this` 在 Arrow function 中是被綁定的，所以套用 `call` 的方法時是無法修改 `this`。
+```
+var name = '全域'  
+
+var obj= {  
+  name: '阿鬼',  
+  fun1: function () {   
+    // 注意，這裡是 function，以此為基準產生一個作用域  
+    console.log('1', this.name); // 1 阿鬼  
+    setTimeout( ( ) => {  
+    console.log('2', this.name); // 2 阿鬼  
+    console.log('3', this); // 3 obj 這個物件  
+    }, 10);  
+ },  
+  fun2: () => {   
+    // 注意，如果使用箭頭函式，this 依然指向 window  
+    console.log('4', this.name); // 4 全域  
+    setTimeout(() => {  
+      console.log('5', this.name); // 5 全域  
+      console.log('6', this); // 6 window 物件  
+    }, 10);  
+  }  
+}  
+obj.fun1();  
+obj.fun2();
+```
+
