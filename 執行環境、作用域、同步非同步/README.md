@@ -70,8 +70,7 @@ function fun(){
   console.log('called fun');   
 } 
 ```
-![avatar](/img/1.png)
-![avatar](img/1.png)
+![](img/1.png)
 `fun` 函式正確地被執行了，但是變數 `a` 的值變成了 `undefined`，即使函式與變數是之後才宣告的，但仍然正確執行，這是在創造階段就被**設定變數以及函式在記憶體裡**，這個步驟叫做 **「提升 (hoisting)」** 。
 >  這個步驟並不是真的把我們的程式碼移動到最上方，而是在程式碼被逐行解讀之前， JavaScript 已經為變數、函式在記憶體中建立一個空間了。
     
