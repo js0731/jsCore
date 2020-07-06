@@ -118,3 +118,44 @@ Hi => 1sec
 順序為:
 Hi => 1sec
 `setTimeout`設定的等待時間，並不能夠確保它真的會在設定的時間到就馬上執行，也就是假設時間為 10sec，這樣只能夠確保它會在 **大於等於** 10sec 後才會執行」。
+
+
+
+
+
+
+
+
+
+
+
+
+
+# 箭頭函式
+-   傳統函式：有一個大原則：**看呼叫時的物件是誰**
+-   箭頭函式：而 Arrow Functions 則不會有自己的  `this`  引用物件，呼叫  `this`  時，會**向外查找**`this`。
+```
+var name = '全域'  
+
+var obj= {  
+  name: '阿鬼',  
+  fun1: function () {   
+    // 注意，這裡是 function，以此為基準產生一個作用域  
+    console.log('1', this.name); // 1 阿鬼  
+    setTimeout(() => {  
+    console.log('2', this.name); // 2 阿鬼  
+    console.log('3', this); // 3 obj這個物件  
+    }, 10);  
+ },  
+  fun2: () => {   
+    // 注意，如果使用箭頭函式，this 依然指向 window  
+    console.log('4', this.name); // 4 全域  
+    setTimeout(() => {  
+      console.log('5', this.name); // 5 全域  
+      console.log('6', this); // 6 window 物件  
+    }, 10);  
+  }  
+}  
+  
+obj.fun1();  
+obj.fun2();
