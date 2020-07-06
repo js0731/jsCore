@@ -1,4 +1,5 @@
 
+
 # 陳述式與表達式
 
 * **Statement 陳述式**
@@ -45,7 +46,7 @@ console.log('typeof c: '+typeof c);d = null;
 console.log('typeof d: '+typeof d);console.log('typeof e: '+typeof e);
 ```
 
-![](https://miro.medium.com/max/1760/1*WEaunec_dgpVGxZAiQEDjA.png)
+![](img/1.png)
 
 值得注意的是：
 
@@ -76,7 +77,7 @@ var e = new String(a);
 console.log(a);  
 console.log(e);
 ```
-![](https://miro.medium.com/max/1769/1*G6dEyUCy9hwo9EEGzCRaVQ.png)
+![](img/2.png)
 
 很清楚的可以看到e是一個物件，_proto_便是包裹物件的原型，裡面包含了這個物件可以使用的方法。
 
@@ -86,14 +87,15 @@ Note: 需要原始型別變數時，盡量不要使用建構式來宣告，因�
   運算子彼此之間的執行順序。例如：乘除優先於加減，因此先執行乘除後執行加減，以下面程式碼為例：
 `var a = 2 * 2 + 2 * 3;`
 會先執行 2 * 2 和 2 * 3，接著再把兩者個結果相加，是因為乘號的的優先性大於加號的優先性。
-![](https://miro.medium.com/max/2324/1*x4WAxkFqvtw30vMVATf0DQ.png)
+![](img/3.png)
+
 而`=`是最後才執行賦值的運算子，因為他的優先性最低。
-![](https://miro.medium.com/max/2329/1*a4e_TFOBma1OqKWFNPl5hw.png)
+![](img/4.png)
+
 ### 相依性 Associativity：
 
 指的是運算方向。例如：加號的相依性是由左至右，但等號是由右至左。當兩個運算子的優先性相同時(例如加號和減號)，就會依據相依性的方向來執行。
-![](https://miro.medium.com/max/2324/1*x4WAxkFqvtw30vMVATf0DQ.png)
-
+![](img/5.png)
 
 下面這段程式碼宣告一個物件變數b, 接著幫他定義一個屬性a, 賦予a的值為2，並且規定他的值不可被覆寫。接著我們試著將b.a賦予一個新的值3,，console.log(b)的結果為2，因為剛才已經將b.a限制為不可被覆寫了。
 
@@ -123,7 +125,7 @@ console.log(a);
 **console.log(b.a);  
 console.log(b.a = 1);**
 ```
-![](https://miro.medium.com/max/1769/1*UMB2RRFjUDvUK0CS5jFG9w.png)
+![](img/6.png)
 
 這邊需要建立一個觀念，**所有的表達式都會回傳值，**但如果沒有去接收它時，他就會立即被釋放，不會儲存，就只是一個過程。
 
