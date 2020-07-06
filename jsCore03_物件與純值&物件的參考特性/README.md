@@ -1,3 +1,4 @@
+
 # 物件與純值
 JavaScript 的資料可以分成 **「基本型別」(Primitives)**  與 **「物件型別」(Object)** 兩大類。
 *  基本型別
@@ -74,7 +75,7 @@ Javascript 在賦予一個值在變數上的時候，會有兩個特性，一個
 *  深層複製 Deep Copy
    ```
     var family = {  
-    name: ‘小明家’,  
+    name: '小明家',  
     members: {  
      father: '老爸',  
      mom: '老媽',  
