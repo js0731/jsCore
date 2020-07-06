@@ -1,158 +1,120 @@
+#  編譯式語言與直譯式語言
+### 直譯式語言
+不同於編譯語言，直譯語言在執行時會**一行一行的動態將程式碼直譯(interpret)為機器碼**，並執行。直譯語言多半以動態語言(dynamic language)為主，具有**靈活的型別處理**，**動態生成與程式彈性**，但**速度會比編譯式語言要慢一些**。
+直譯語言有 - Javascript 、Python、Shellscript等等
 
-# 陳述式與表達式
+### 編譯式語言
+編譯語言在程式執行前會先透過編譯器(compiler)將**程式碼編譯**(Compile)成計算機所看的懂的機器碼，最後再執行。編譯式語言多半會是**靜態語言(static language)**，它們會**事先定義的型別**、**型別檢查**與擁有***高效能的執行速度**等特性。
+編譯式語言有 - C、C++、bjective-C、Visual Basic等等。
+#  作用域(Lexical scope)
+作用域又分**靜態作用域**跟**動態作用域**，而靜態作用域及動態作用域的差別牽涉直譯語言的解譯及運行流程，
 
-* **Statement 陳述式**
-   *   用於命令執行指定的一系列操作，執行完成後也不會回傳任何結果。  
-   *    例如常見的if( )，( )需要**布林值**`true`、`false`來決定這個程式判斷會不會成立，故`()`裡面會放**表示式**，但`if(){}`這段程式碼本身是**陳述句**，執行完成後不會回傳任何結果，區塊{ }也是一樣的概念，只是一定會執行，不會經過判斷。
-   	     
-* **Expression 表達式**
-    *  又稱為**表示式**、**運算式**，經常透過一些**符號(運算子)**結合上下語句並運算及**回傳結果**。
-    * 運算式的幾種分類 :
-        *  算數 : 解析出數字，例如 a+b
-        *  字串 : 解析出處字串，例如 'abc' or '123'
-        * 邏輯 : 解析出 True 或 False 
-       * 左運算式 : 左側是指定值得對象 例如 a = b
-   
- *  **函式也分為函式陳述式與函式表達式**
-      * **函式陳述式(可提升)**  
-          * `function dog(){ console.log('小狗') }` 
-          * 直接宣告一個函式就是函式陳述式  
-      * **函式表達式(不可提升)**  
-          *  ` var callFun = function(){}` 
-          *  當程式執行到`=`運算子右邊的程式碼，**才建立這個函式物件**，將其指向變數`callFun`，並且它可以當成一個**值**，所以是`Function Expression`表示式。
----
-# 原始型別及物件型別
-我們經常會使用這些型別各自的方法, 例如用.length取得字串的長度。那麼為什麼我們可以這樣做呢？**為什麼明明是「基本型別」卻會有「屬性」以及「方法」可以呼叫？**這是因為**這些型別有著相對應的包裹物件 (Primitive Wrapper)**，這些包裹物件包含了這些物件可以使用的方法，以下是**基本型別及對應的包裹物件**。
-   * Boolean (布林)**  <----------------->     new Boolean( )
-   * **Null  (空)**    <------------------------->   --
-   * **Undefined (未定義)** <------------>   --
-   * **Number  (數值)**    <------------------>   new Number( )
-  * **String  (字串)**      <--------------------->    new String( )
-  * BigInt(new)   整數數值 <----------->   BigInt( )
-  * Symbol(new)   符號  <--------------->  Symbol( )
-   
-   **物件型別**
-   *  只要是原始型別以外的其餘都是物件型別，如:**物件**、**陣列**、**函式**、**日期**等。
+* 靜態作用域 : 變數的作用域在與法解析時，就已經確定作用域，且不會再改變
+* 動態作用域 : 變數的作用域在函式調用時才決定。
 
-先來看一些關於原始型別的範例程式碼：
+在 JavaScript 中是屬於**靜態作用域**，又稱**語法作用域**，意思就是指在 JavaScript 執行時就已經確定**語法作用域**，大多數的程式語言都是採用**靜態作用域**，例如：C、C++、C#、Python、Java等等。
+
+範例1:
+
+變數 `Ming`的**作用域**僅在 `callName` 函式內，所以在外層 `console.log(Ming)` 會得到Mins is not defined的錯誤。外層讀不到在 `callName` 函式內宣告的變數。
 ```
-var a, b, c, d;  
-console.log('typeof a: '+typeof a);a = 1;  
-console.log('typeof a: '+typeof a);a = ‘文字’;  
-console.log('typeof a: '+typeof a);b = true;  
-console.log('typeof b: '+typeof b);c = {};  
-console.log('typeof c: '+typeof c);d = null;   
-console.log('typeof d: '+typeof d);console.log('typeof e: '+typeof e);
+function callName(){
+  var Ming = '明' ;  
+}
+
+callName();
+console.log(Ming);
 ```
 
-![](https://miro.medium.com/max/1760/1*WEaunec_dgpVGxZAiQEDjA.png)
+範例2:
 
-值得注意的是：
+執行`fn2`時，變數`value`賦予了另外一個值`2`，接著執行`fn1`，`fun1`因為要印出`value`，因此向外查找`value`這個變數，在全域中找到`value`，值等於`1`。最後`console.log`的結果會是`1`。
 
-1.  d (null)的型別是object, 這是js長久以來的一個錯誤。
-2.  e這個未定義的變數的型別是undefined, 這是js對undefined變數的一個保護。
-
-### 物件型別：
-
-前面提到，基本型別會有「屬性」以及「方法」是因為這些型別有著相對應的**包裹物件 (Primitive Wrapper)**。
-
-var str = 'Hello';  
-console.log( str.length );
-
-像上面段程式碼，當我們試著去讀取  `str.length`  的時候，背後原理是這樣的：
+而`fn2`函式的作用域僅在`fn2`內部，`fn1`是查找不到`value`等於`2`的，但如果今天JS是採用**動態作用域**的話，結果就不一樣了。在執行到`console.log(value)`時，他會**向上一層調用的函式來查找value的值**，因此找到值等於`2`。
 ```
-var str = new String("Hello");  
-str.length;  
-  
-str = null;  
-str = 'Hello';
+var value = 1;  
+
+function fun1() {
+  console.log(value); 
+}
+
+function fun2() {
+  var value = '2';
+  fun1();
+}
+
+fun2()
 ```
-它會透過對應的物件建構器將`["Hello"]，包裝成一個 **String 的「物件」**，然後回傳對應的屬性後，即刻銷毀恢復成**基本型別**。
+而這個向外查找的過程就稱做**範圍鍊 (Scope Chain)** 指的是：**當函式內沒有需要的變數時，會向外尋找該變數的過程**。
 
-我們可以透過下面這段程式碼來了解**原始型別**與**物件型別***的不同。a是一個原始型別為字串的變數，而e是一個透過建構式建立的物件。
+# 執行環境 (Execution context)
+
+每當**函式被執行時**，就會產生**執行環境 Execution Context**。每執行一次便會產生一個新的執行環境。除了函式之外，全域也有**全域執行環境**，在網頁被瀏覽器開啟或是後端Node.js被啟動時，就被建立了。全域執行環境被建立時會同時宣告window或是global變數 (在瀏覽器是window, Node.js是global，而在全域執行環境中的this就等同於這兩個變數)。
+
+----------
+
+當你的程式碼已經準備好開始運行，第一個建立的執行環境就是：
+
+#### 全域執行環境 (Global execution context)。
+
+**執行環境**  在建立時，會經歷**兩個階段**，分別是 ：
+
+1.**Creation Phase 創造階段 : 設定變數與function到記憶體中、提升(hoisting) 。**
+範例:
+
 ```
-a = ‘ming ‘;  
-var e = new String(a);
-console.log(a);  
-console.log(e);
+     fun();   
+     console.log(a); //undefined
+     var a = 'hello';   
+     function fun(){   
+       console.log('called fun');   
+     } 
 ```
-![](https://miro.medium.com/max/1769/1*G6dEyUCy9hwo9EEGzCRaVQ.png)
+     圖:[https://pvt5r486.github.io/f2e/20190110/1483372396/](https://pvt5r486.github.io/f2e/20190110/1483372396/)
+`fun` 函式正確地被執行了，但是變數 `a` 的值變成了 `undefined`，即使函式與變數是之後才宣告的，但仍然正確執行，這是在創造階段就被**設定變數以及函式在記憶體裡**，這個步驟叫做 **「提升 (hoisting)」** 。
+>  這個步驟並不是真的把我們的程式碼移動到最上方，而是在程式碼被逐行解讀之前， JavaScript 已經為變數、函式在記憶體中建立一個空間了。
+    
+#### 然而變數的情況有點不太依樣
+以上述程式碼為例，JavaScript為變數`a`騰出記憶體空間時並不知道  a 是什麼值，如同`var a ;`會先放上`undefined`的特殊值，直到該行程式碼真正被執行時才知道 `var a = 'hello';`，**所有的JavaScript 的變數都一樣一開始都會被設定為 undefined**。
+2.**Execution Phase 執行階段 : 一行一行執行你寫的程式碼。**
 
-很清楚的可以看到e是一個**物件**，_proto_便是包裹物件的原型，裡面包含了這個**物件可以使用的方法**。
-
-Note: 需要原始型別變數時，盡量不要使用建構式來宣告，因為這樣便會宣告出一個物件型別，而非原始型別，操作上還是會跟原始型別不太一樣。
-# 運算子的優先性及相依性
-### 優先性 Precedence：
-  運算子彼此之間的執行順序。例如：乘除優先於加減，因此先執行乘除後執行加減，以下面程式碼為例：
-`var a = 2 * 2 + 2 * 3;`
-會先執行 2 * 2 和 2 * 3，接著再把兩者個結果相加，是因為乘號的**優先性大於加號的優先性**。
-![](https://miro.medium.com/max/2324/1*x4WAxkFqvtw30vMVATf0DQ.png)
-而`=`是最後才執行賦值的運算子，因為他的優先性最低。
-![](https://miro.medium.com/max/2329/1*a4e_TFOBma1OqKWFNPl5hw.png)
-### 相依性 Associativity：
-
-指的是**運算方向**。例如：加號的相依性是**由左至右**，但**等號是由右至左**。當兩個運算子的優先性相同時(例如加號和減號)，就會依據**相依性的方向來執行**。
-![](https://miro.medium.com/max/2324/1*x4WAxkFqvtw30vMVATf0DQ.png)
-
-
-下面這段程式碼宣告一個物件變數b, 接著幫他定義一個屬性a, 賦予a的值為2，並且規定他的值不可被覆寫。接著我們試著將b.a賦予一個新的值3，console.log(b)的結果為2，因為剛才已經將b.a限制為不可被覆寫了。
-
-接下來定義另一個變數a，在 a = b.a = 1 之後，a的值會是什麼？
+一旦  **全域執行環境**  結束  **創造階段**、進入  **執行階段**，它就會開始由上到下、一行一行地執行程式。
+#### 執行環境的生成與堆疊 (Execution Stack)
+**全域執行環境**  在執行程式碼的過程中，判讀到**函式呼叫**，**全域執行環境**  就會馬上為它建立一個全新的**執行環境**，供這個函式裏頭的程式碼運行，如果我們不斷地在一個**函式中又呼叫另一個函式**，就會建立很多個**執行環境**，而這些**待執行的程式碼**就會**堆疊起來**形成所謂的**執行堆疊 (Execution Stack)**。
+#### 執行環境的生成與堆疊 (Execution Stack) 與函式的宣告順序無關，而是與呼叫的順序相關聯。
+     範例:
+     ```
+     function sayHi(name){  
+       return 'hi' + name ;
+        }
+        
+     function doSomething(){  
+       var ming = ' 小明';
+       console.log( sayHi(ming) ); 
+     }
+     
+     doSomething();
+     ```
+     
+     以上述程式碼描述執行的順序 :
+     建立全域執行環境 => 建立doSomething的執行環境，堆疊在全域執行環境上=>  建立sayHi的執行環境，堆疊在doSomething執行環境上 => 執行sayHi程式碼，執行完離開sayHi執行環境 => 回到doSomething執行環境，執行完離開doSomething執行環境 > 最後回到全域執行環境。
+#  記憶體的存放與釋放
+當我們的函式執行完後如果裡面的變數沒有在昨為其他的參考使用的話他的記憶體就會被釋放出來。
+MDN的說明文章 : 
+這是一個最務實的垃圾回收演算法。 這個演算法將原本「這個物件再也不會被使用」的廣泛定義縮減到「沒有其他任何物件參考它」。如果一個物件不在被任何物件參考，它將被視為可回收記憶體的垃圾。
+# 執行緒與同步、非同步
+JavaScript 本身是**同步的**而他去呼叫**其它資源使用時**如`setTimeout`、`addEventListener`、`Http request`等，因為**無法預期執行時間的操作**，都會以**非同步處理**，也就是會先被丟到**事件佇列(Queue)**，等到**同步執行的程式碼執行完**，才會去處理那些被放到佇列中的任務。
+範例:
 ```
-var b = {};  
-Object.defineProperty(b, ‘a’, {  
- value: 2,  
- writable: false  
-});b.a = 3;  
-console.log(b.a); // 2var a = 3;  
-a = b.a = 1;  
-console.log(a);
-```
-答案會是1，為什麼呢？前面不是說了，b.a無法被覆寫，結果為什麼不會是2呢？
+setTimeout(function(){
+  console.log("1sec")
+},1000);
 
-這是因為在  `a=b.a=1`這一行程式碼中，a會被賦予的值，是`b.a=1`這個**表達式所回傳的結果**，與`b.a`現在的值是沒有關係的。我們可以在console中把`b.a`和`b.a=1`都印出來看看。
-```
-var b = {};  
-Object.defineProperty(b, ‘a’, {  
- value: 2,  
- writable: false  
-});b.a = 3;  
-console.log(b.a); // 2var a = 3;  
-a = b.a = 1;  
-console.log(a);  
-**console.log(b.a);  
-console.log(b.a = 1);**
-```
-![](https://miro.medium.com/max/1769/1*UMB2RRFjUDvUK0CS5jFG9w.png)
+console.log("Hi");
 
-這邊需要建立一個觀念，**所有的表達式都會回傳值，**但如果沒有去接收它時，他就會立即被釋放，不會儲存，就只是一個過程。
-
-而  `=`  也是表達式，他的功能是將右側的值賦予到左側，但同時也**必須回傳值**（只因為它是表達式），會傳的值都是用右側的值做表示。
-# 邏輯運算子與短路邏輯的運用
-### 邏輯運算子
-  *  **&&** 的特性是要全部為 true 才會是 true，否則都返回 false
-  * **||** 的特性是只要其中一個是 true 就會返回 true，除非全部都是 false，意即只要其中一個條件滿足就成立
-  * **!** 特性就是做反向，如果是 true 就返回 false，如果是 false 就返回 true
-
-### 短路求值
-上面曾提到邏輯運算子們常在 if 判斷式中和布林 (true or false) 一起使用，那是因為**在 if 判斷式的括號裡會強制轉成布林值**。
-但其實在 javascript 裡**可以用邏輯運算子操作任何值，不會強制要返回 true or false**。
-如果有[比較運算子](https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Obsolete_Pages/Obsolete_Pages/Obsolete_Pages/%E9%81%8B%E7%AE%97%E5%AD%90/%E6%AF%94%E8%BC%83%E9%81%8B%E7%AE%97%E5%AD%90)的話，再透過[比較運算子](https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Obsolete_Pages/Obsolete_Pages/Obsolete_Pages/%E9%81%8B%E7%AE%97%E5%AD%90/%E6%AF%94%E8%BC%83%E9%81%8B%E7%AE%97%E5%AD%90)去比較出結果就**可以發展出更簡便的寫法**，就是下面要提到的短路邏輯。
-![avatar](logocal_operators.png)
-**在 javascript 裡面只要是 0、""、null、false、undefined、NaN 都會被判定為 false**。
+順序為:  
+Hi => 1sec
 ```
-console.log(0 && 1)  // 0
-console.log(1 && 0)  // 0
-console.log(1 || 0)  // 1
-console.log(0 || 1)  // 1
-console.log(0 || 1)  // 1
-console.log(undefined || 1)  // 1
-console.log(1 && undefined)  // undefined
-```
-**短路邏輯的運用**
-  1. 用 || 來設定變數預設值，如果沒有 name 就預設為小明。 <br/>`var student = name || "小明";`
-  2. 用 && 來檢查物件與屬性值
-  3. 假設想要返回一個變數的length，但又不知道變數的類型可以使用if/else 來檢查foo 是否是一個可接受的類型。<br/>`return (foo | | [ ] ).length`
-  4. 用 && 來簡化程式碼，如果 a == 1 為 false，那下面 alert 就不會做了。
-  ```var a = 1; a == 1 && alert("a=1")```
-
+順序為:
+Hi => 1sec
+`setTimeout`設定的等待時間，並不能夠確保它真的會在設定的時間到就馬上執行，也就是假設時間為 10sec，這樣只能夠確保它會在 **大於等於** 10sec 後才會執行」。
