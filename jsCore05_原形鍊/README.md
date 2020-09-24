@@ -80,7 +80,7 @@ console.log(alice.skill) // JavaScript;
 console.log(Object.getPrototypeOf(alice)); // Person {constructor: ƒ}
 ```
 ## ES6 的 Class
-從 ES6 開始就有了 `Class` 語法可以使用，整體開發者體驗會好上不少。讓我們把前面的範例透過 `Class` 重構一下：
+從 ES6 開始就有了 `Class` 語法可以使用，整體開發者體驗會好上不少。把前面的範例透過 `Class` 重構一下：
 ```
 class Person {  
   constructor (name){  
