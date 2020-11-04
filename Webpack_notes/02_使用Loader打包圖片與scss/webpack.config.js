@@ -31,18 +31,18 @@ module.exports = {
                     }
                 }
             },
-            {
-                test: /\.css$/,
-                use: ['style-loader', 'css-loader']
-            },
-            {
-                test: /\.scss$/,
-                use: ['style-loader', 'css-loader', 'sass-loader']
-            },
+            // {
+            //     test: /\.css$/,
+            //     use: ['style-loader', 'css-loader']
+            // },
             // {
             //     test: /\.scss$/,
-            //     use: ['style-loader', 'css-loader', 'postcss-loader', 'sass-loader']	// sass-loader : 編譯 sass 的loader	 css-loader : 處理css文件， postcss-loader : 調用postcss ，style-loader : 將編譯完的css插入
-            // }
+            //     use: ['style-loader', 'css-loader', 'sass-loader']
+            // },
+            {
+                test: /\.scss$/,
+                use: ['style-loader', 'css-loader', 'postcss-loader', 'sass-loader']	// 調用 postcss
+            }
         ]
     }
 }
